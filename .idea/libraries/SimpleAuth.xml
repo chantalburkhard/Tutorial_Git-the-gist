@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="SimpleAuth">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/node_modules/@microsoft/teamsfx-cli/templates/plugins/resource/simpleauth/SimpleAuth.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
