@@ -20,17 +20,16 @@ let settingsDialog;
 function insertDefaultGist(event) {
   config = getConfig();
 
-  // Check if the add-in has been configured
-  if (config && config.defaulfGistId) {
+  // Check if the add-in has been configured.
+  if (config && config.defaultGistId) {
     // Get the default gist content and insert.
     try {
-      getGist(config.defaulfGistId, function(gist, error) {
+      getGist(config.defaultGistId, function(gist, error) {
         if (gist) {
-          buildBodyContent(gist, function(content, error) {
+          buildBodyContent(gist, function (content, error) {
             if (content) {
               Office.context.mailbox.item.body.setSelectedDataAsync(content,
-                { coercionType: Office.CoercionType.Html },
-                function (result) {
+                {coercionType: Office.CoercionType.Html}, function(result) {
                   event.completed();
                 });
             } else {
@@ -44,16 +43,16 @@ function insertDefaultGist(event) {
         }
       });
     } catch (err) {
-      showError(error);
+      showError(err);
       event.completed();
     }
   } else {
-    // Save the evnt object, so we can finish up later.
+    // Save the event object so we can finish up later.
     btnEvent = event;
-    // Not configurated yet, display settings dialog with
+    // Not configured yet, display settings dialog with
     // warn=1 to display warning.
     const url = new URI("dialog.html?warn=1").absoluteTo(window.location).toString();
-    const dialogOptions = { width: 20, height: 40, displayInFrame: true };
+    const dialogOptions = { width: 20, height: 40, displayInIframe: true };
 
     Office.context.ui.displayDialogAsync(url, dialogOptions, function(result) {
       settingsDialog = result.value;

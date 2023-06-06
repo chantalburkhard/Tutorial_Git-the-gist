@@ -1,11 +1,11 @@
-(function () {
+(function (){
   "use strict";
 
   // The Office initialize function must be run each time a new page is loaded.
-  Office.initialize = function(reason) {
-    jQuery(document).ready(function () {
+  Office.initialize = function(reason){
+    jQuery(document).ready(function(){
       if (window.location.search) {
-        // Check if warning should be displayed
+        // Check if warning should be displayed.
         const warn = getParameterByName("warn");
         if (warn) {
           $(".not-configured-warning").show();
@@ -13,10 +13,10 @@
           // See if the config values were passed.
           // If so, pre-populate the values.
           const user = getParameterByName("gitHubUserName");
-          const gistId = getParameterByName("defaultGist");
+          const gistId = getParameterByName("defaultGistId");
 
           $("#github-user").val(user);
-          loadGists(user, function(success) {
+          loadGists(user, function (success) {
             if (success) {
               $(".ms-ListItem").removeClass("is-selected");
               $("input")
@@ -51,7 +51,7 @@
 
         const selectedGist = $(".ms-ListItem.is-selected");
         if (selectedGist) {
-          settings.defaulfGistId = selectedGist.val();
+          settings.defaultGistId = selectedGist.val();
 
           sendMessage(JSON.stringify(settings));
         }
@@ -62,14 +62,13 @@
   // Load gists for the user using the GitHub API
   // and build the list.
   function loadGists(user, callback) {
-    getUserGists(user, function (gists, error) {
+    getUserGists(user, function(gists, error){
       if (error) {
         $(".gist-list-container").hide();
         $("#error-text").text(JSON.stringify(error, null, 2));
         $(".error-display").show();
         if (callback) callback(false);
-      }
-      else {
+      } else {
         $(".error-display").hide();
         buildGistList($("#gist-list"), gists, onGistSelected);
         $(".gist-list-container").show();

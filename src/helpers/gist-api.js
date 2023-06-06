@@ -14,9 +14,8 @@ function getUserGists(user, callback) {
 }
 
 function buildGistList(parent, gists, clickFunc) {
-  gists.forEach(function(gist) {
-
-    const listitem = $("<div/>").appendTo(parent);
+  gists.forEach(function (gist) {
+    const listItem = $("<div/>").appendTo(parent);
 
     const radioItem = $("<input>")
       .addClass("ms-ListItem")
@@ -25,23 +24,23 @@ function buildGistList(parent, gists, clickFunc) {
       .attr("name", "gists")
       .attr("tabindex", 0)
       .val(gist.id)
-      .appendTo(listitem);
+      .appendTo(listItem);
 
-    const descPrimary = $("<span/>").addClass("ms-ListItem-primaryText").text(gist.description).appendTo(listitem);
+    const descPrimary = $("<span/>").addClass("ms-ListItem-primaryText").text(gist.description).appendTo(listItem);
 
     const descSecondary = $("<span/>")
       .addClass("ms-ListItem-secondaryText")
       .text(" - " + buildFileList(gist.files))
-      .appendTo(listitem);
+      .appendTo(listItem);
 
     const updated = new Date(gist.updated_at);
 
     const descTertiary = $("<span/>")
       .addClass("ms-ListItem-tertiaryText")
       .text(" - Last updated " + updated.toLocaleString())
-      .appendTo(listitem);
+      .appendTo(listItem);
 
-    listitem.on("click", clickFunc);
+    listItem.on("click", clickFunc);
   });
 }
 
@@ -57,11 +56,12 @@ function buildFileList(files) {
       fileList = fileList + files[file].filename + " (" + files[file].language + ")";
     }
   }
+
   return fileList;
 }
 
 function getGist(gistId, callback) {
-  const requestUrl = "https://api.github.com/gists" + gistId;
+  const requestUrl = "https://api.github.com/gists/" + gistId;
 
   $.ajax({
     url: requestUrl,
@@ -81,12 +81,12 @@ function buildBodyContent(gist, callback) {
   for (let filename in gist.files) {
     if (gist.files.hasOwnProperty(filename)) {
       const file = gist.files[filename];
-      if (!file.truncate) {
+      if (!file.truncated) {
         // We have a winner.
         switch (file.language) {
           case "HTML":
             // Insert as is.
-            callback(file.language);
+            callback(file.content);
             break;
           case "Markdown":
             // Convert Markdown to HTML.
